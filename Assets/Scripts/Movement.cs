@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
     [SerializeField] float mainThrust = 100f;
     [SerializeField] float rocketRotation = 10f;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip engineShutdown;
+
     Rigidbody rocketRigidbody;
     AudioSource thrustSound;
     AudioSource thrustShutdownSound;
@@ -40,28 +44,23 @@ public class Movement : MonoBehaviour
         {
             if (!thrustSound.isPlaying)
             {
-                thrustSound.Play();
+                thrustSound.PlayOneShot(mainEngine);
             }
         }
         else
         {
             thrustSound.Stop();
         }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            thrustShutdownSound.Play();
-        }
     }
 
     void ProcessRotation()
     {
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             ApplyRotation(rocketRotation);
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             ApplyRotation(-rocketRotation);
         }
